@@ -20,7 +20,9 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       value: stats.calories.toLocaleString(),
       unit: "kcal",
       color: "text-orange-500",
-      bgColor: "bg-orange-500/10",
+      bgColor: "bg-gradient-to-br from-orange-500/20 to-red-500/20",
+      iconColor: "text-orange-400",
+      shadow: "shadow-orange-500/20",
     },
     {
       icon: Heart,
@@ -28,7 +30,9 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       value: stats.maxHeartRate,
       unit: "bpm",
       color: "text-red-500",
-      bgColor: "bg-red-500/10",
+      bgColor: "bg-gradient-to-br from-red-500/20 to-pink-500/20",
+      iconColor: "text-red-400",
+      shadow: "shadow-red-500/20",
     },
     {
       icon: Activity,
@@ -36,7 +40,9 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       value: stats.avgHeartRate,
       unit: "bpm",
       color: "text-pink-500",
-      bgColor: "bg-pink-500/10",
+      bgColor: "bg-gradient-to-br from-pink-500/20 to-purple-500/20",
+      iconColor: "text-pink-400",
+      shadow: "shadow-pink-500/20",
     },
     {
       icon: Waves,
@@ -44,7 +50,9 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       value: stats.strokes.toLocaleString(),
       unit: "total",
       color: "text-blue-500",
-      bgColor: "bg-blue-500/10",
+      bgColor: "bg-gradient-to-br from-blue-500/20 to-cyan-500/20",
+      iconColor: "text-blue-400",
+      shadow: "shadow-blue-500/20",
     },
     {
       icon: Gauge,
@@ -52,7 +60,9 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       value: stats.avgStrokeSpeed,
       unit: "m/s",
       color: "text-cyan-500",
-      bgColor: "bg-cyan-500/10",
+      bgColor: "bg-gradient-to-br from-cyan-500/20 to-teal-500/20",
+      iconColor: "text-cyan-400",
+      shadow: "shadow-cyan-500/20",
     },
     {
       icon: MapPin,
@@ -60,7 +70,9 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       value: stats.distance,
       unit: "km",
       color: "text-green-500",
-      bgColor: "bg-green-500/10",
+      bgColor: "bg-gradient-to-br from-green-500/20 to-emerald-500/20",
+      iconColor: "text-green-400",
+      shadow: "shadow-green-500/20",
     },
   ]
 
@@ -71,11 +83,11 @@ export default function StatsGrid({ stats }: StatsGridProps) {
         return (
           <Card
             key={index}
-            className="bg-slate-800/30 border-slate-700/50 p-5 hover:bg-slate-800/50 transition-all duration-300"
+            className="bg-slate-800/30 border-slate-700/50 p-5 hover:bg-slate-800/50 hover:border-slate-600 transition-all duration-300 hover:shadow-xl hover:scale-105"
           >
             <div className="flex items-start justify-between mb-3">
-              <div className={`${stat.bgColor} p-2.5 rounded-lg`}>
-                <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color}`} />
+              <div className={`${stat.bgColor} ${stat.shadow} p-3 rounded-xl shadow-lg backdrop-blur-sm border border-white/10`}>
+                <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${stat.iconColor} drop-shadow-lg`} strokeWidth={2.5} />
               </div>
             </div>
             <div className="space-y-1">
