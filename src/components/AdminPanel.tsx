@@ -3,12 +3,11 @@ import { Card } from './ui/card'
 import { Play, Pause, RotateCcw, Save } from 'lucide-react'
 
 interface Stats {
-  calories: number
-  maxHeartRate: number
-  avgHeartRate: number
-  strokes: number
-  avgStrokeSpeed: number
   distance: number
+  strokes: number
+  calories: number
+  avgPace: number
+  avgHeartRate: number
 }
 
 interface SwimData {
@@ -23,17 +22,26 @@ export default function AdminPanel() {
     elapsedTime: 0,
     isRunning: false,
     stats: {
-      calories: 0,
-      maxHeartRate: 0,
-      avgHeartRate: 0,
-      strokes: 0,
-      avgStrokeSpeed: 0,
       distance: 0,
+      strokes: 0,
+      calories: 0,
+      avgPace: 0,
+      avgHeartRate: 0,
     },
     startTime: null,
   })
 
   const [timeInput, setTimeInput] = useState({ hours: 0, minutes: 0, seconds: 0 })
+  
+  // Estado separado para los inputs de estadísticas
+  const [statsInput, setStatsInput] = useState<Stats>({
+    distance: 0,
+    strokes: 0,
+    calories: 0,
+    avgPace: 0,
+    avgHeartRate: 0,
+  })
+  
   const TOTAL_DURATION = 12 * 60 * 60 // 12 horas en segundos
 
   // Cargar datos del localStorage al iniciar
@@ -107,12 +115,11 @@ export default function AdminPanel() {
       elapsedTime: 0,
       isRunning: false,
       stats: {
-        calories: 0,
-        maxHeartRate: 0,
-        avgHeartRate: 0,
-        strokes: 0,
-        avgStrokeSpeed: 0,
         distance: 0,
+        strokes: 0,
+        calories: 0,
+        avgPace: 0,
+        avgHeartRate: 0,
       },
       startTime: null,
     }
@@ -131,15 +138,41 @@ export default function AdminPanel() {
   }
 
   const handleStatChange = (key: keyof Stats, value: number) => {
-    setSwimData(prev => ({
+    setStatsInput(prev => ({
       ...prev,
-      stats: { ...prev.stats, [key]: value },
+      [key]: value,
     }))
   }
 
   const handleSaveStats = () => {
-    localStorage.setItem('swimData', JSON.stringify(swimData))
-    alert('Estadísticas guardadas!')
+    // Sumar los valores de los inputs a las estadísticas actuales
+    const updatedStats: Stats = {
+      distance: swimData.stats.distance + statsInput.distance,
+      strokes: swimData.stats.strokes + statsInput.strokes,
+      calories: swimData.stats.calories + statsInput.calories,
+      avgPace: statsInput.avgPace, // Se sobreescribe
+      avgHeartRate: statsInput.avgHeartRate, // Se sobreescribe
+    }
+    
+    const updatedData = {
+      ...swimData,
+      stats: updatedStats,
+    }
+    
+    // Guardar en localStorage y actualizar el estado
+    localStorage.setItem('swimData', JSON.stringify(updatedData))
+    setSwimData(updatedData)
+    
+    // Limpiar los inputs después de guardar
+    setStatsInput({
+      distance: 0,
+      strokes: 0,
+      calories: 0,
+      avgPace: 0,
+      avgHeartRate: 0,
+    })
+    
+    alert('Estadísticas guardadas y sumadas!')
   }
 
   const progress = Math.min((swimData.elapsedTime / (12 * 60 * 60)) * 100, 100)
@@ -249,63 +282,53 @@ export default function AdminPanel() {
             
             <div className="space-y-4">
               <div>
-                <label className="text-sm text-slate-400 block mb-2">Calorías (kcal)</label>
+                <label className="text-sm text-slate-400 block mb-2">Distancia Total (metros)</label>
                 <input
                   type="number"
-                  value={swimData.stats.calories}
-                  onChange={(e) => handleStatChange('calories', parseFloat(e.target.value) || 0)}
+                  value={statsInput.distance}
+                  onChange={(e) => handleStatChange('distance', parseFloat(e.target.value) || 0)}
                   className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
                 />
+                <p className="text-xs text-slate-500 mt-1">Piscinas: {Math.floor(statsInput.distance / 25)}</p>
               </div>
 
               <div>
-                <label className="text-sm text-slate-400 block mb-2">FC Máxima (bpm)</label>
+                <label className="text-sm text-slate-400 block mb-2">Brazadas Totales</label>
                 <input
                   type="number"
-                  value={swimData.stats.maxHeartRate}
-                  onChange={(e) => handleStatChange('maxHeartRate', parseFloat(e.target.value) || 0)}
-                  className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400 block mb-2">FC Media (bpm)</label>
-                <input
-                  type="number"
-                  value={swimData.stats.avgHeartRate}
-                  onChange={(e) => handleStatChange('avgHeartRate', parseFloat(e.target.value) || 0)}
-                  className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm text-slate-400 block mb-2">Brazadas (total)</label>
-                <input
-                  type="number"
-                  value={swimData.stats.strokes}
+                  value={statsInput.strokes}
                   onChange={(e) => handleStatChange('strokes', parseFloat(e.target.value) || 0)}
                   className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-sm text-slate-400 block mb-2">Velocidad Media Brazada (m/s)</label>
+                <label className="text-sm text-slate-400 block mb-2">Calorías Totales (kcal)</label>
                 <input
                   type="number"
-                  step="0.01"
-                  value={swimData.stats.avgStrokeSpeed}
-                  onChange={(e) => handleStatChange('avgStrokeSpeed', parseFloat(e.target.value) || 0)}
+                  value={statsInput.calories}
+                  onChange={(e) => handleStatChange('calories', parseFloat(e.target.value) || 0)}
                   className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
                 />
               </div>
 
               <div>
-                <label className="text-sm text-slate-400 block mb-2">Distancia Recorrida (km)</label>
+                <label className="text-sm text-slate-400 block mb-2">Ritmo Medio (min/100m) - Última hora</label>
                 <input
                   type="number"
                   step="0.01"
-                  value={swimData.stats.distance}
-                  onChange={(e) => handleStatChange('distance', parseFloat(e.target.value) || 0)}
+                  value={statsInput.avgPace}
+                  onChange={(e) => handleStatChange('avgPace', parseFloat(e.target.value) || 0)}
+                  className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-slate-400 block mb-2">FC Media (bpm) - Última hora</label>
+                <input
+                  type="number"
+                  value={statsInput.avgHeartRate}
+                  onChange={(e) => handleStatChange('avgHeartRate', parseFloat(e.target.value) || 0)}
                   className="w-full bg-slate-800 border border-slate-600 rounded px-4 py-2 text-white"
                 />
               </div>

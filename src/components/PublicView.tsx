@@ -4,12 +4,11 @@ import SwimmingProgressBar from './SwimmingProgressBar'
 import StatsGrid from './StatsGrid'
 
 interface Stats {
-  calories: number
-  maxHeartRate: number
-  avgHeartRate: number
-  strokes: number
-  avgStrokeSpeed: number
   distance: number
+  strokes: number
+  calories: number
+  avgPace: number
+  avgHeartRate: number
 }
 
 interface SwimData {
@@ -24,12 +23,11 @@ export default function PublicView() {
     elapsedTime: 0,
     isRunning: false,
     stats: {
-      calories: 0,
-      maxHeartRate: 0,
-      avgHeartRate: 0,
-      strokes: 0,
-      avgStrokeSpeed: 0,
       distance: 0,
+      strokes: 0,
+      calories: 0,
+      avgPace: 0,
+      avgHeartRate: 0,
     },
     startTime: null,
   })
@@ -90,6 +88,14 @@ export default function PublicView() {
               <p className="text-xl lg:text-2xl text-white font-semibold">
                 POR LA EDUCACIÓN
               </p>
+              <div className="mt-6 pt-6 border-t border-slate-700/50">
+                <p className="text-lg lg:text-xl text-slate-300 font-semibold mb-2">
+                  Femenino
+                </p>
+                <p className="text-3xl lg:text-4xl text-white font-bold">
+                  {swimData.stats.distance.toLocaleString()} metros
+                </p>
+              </div>
               <div className="mt-8 pt-8 border-t border-slate-700">
                 <p className="text-yellow-400 text-xl lg:text-2xl font-bold mb-2">
                   SANTA LIBRADA
@@ -113,25 +119,24 @@ export default function PublicView() {
       )}
 
       <div className="w-full max-w-7xl">
-        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl p-6 lg:p-10 shadow-2xl w-full">
+        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl p-4 lg:p-6 shadow-2xl w-full">
           {/* Header */}
-          <div className="text-center mb-6 lg:mb-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2 tracking-tight text-balance leading-tight">
+          <div className="text-center mb-3">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-0.5 tracking-tight leading-tight">
               RÉCORD POR
-              <br />
-              <span className="text-red-500">SANTA LIBRADA</span>
+              <span className="text-red-500"> SANTA LIBRADA</span>
             </h1>
-            <p className="text-red-500 text-lg sm:text-xl lg:text-2xl font-bold tracking-wider">
+            <p className="text-red-500 text-sm sm:text-base lg:text-lg font-bold tracking-wider">
               RÉCORD POR LA EDUCACIÓN
             </p>
-            <div className="text-slate-400 text-base sm:text-lg mt-3 font-medium">12 HORAS DE NATACIÓN</div>
+            <div className="text-slate-400 text-xs sm:text-sm mt-1 font-medium">12 HORAS DE NATACIÓN</div>
           </div>
 
           {/* Timer */}
-          <div className="text-center mb-8 lg:mb-10">
-            <div className="inline-block bg-slate-800/50 px-8 py-4 rounded-xl border border-slate-700">
-              <div className="text-sm text-slate-400 mb-2 tracking-wider">TIEMPO TRANSCURRIDO</div>
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-mono font-bold text-white tabular-nums">
+          <div className="text-center mb-4">
+            <div className="inline-block bg-slate-800/50 px-4 py-2 rounded-xl border border-slate-700">
+              <div className="text-xs text-slate-400 mb-0.5 tracking-wider">TIEMPO TRANSCURRIDO</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-mono font-bold text-white tabular-nums">
                 {formatTime(swimData.elapsedTime)}
               </div>
             </div>
@@ -141,19 +146,19 @@ export default function PublicView() {
           <SwimmingProgressBar progress={progress} />
 
           {/* Progress Percentage */}
-          <div className="text-center mt-8 mb-8 lg:mb-10">
-            <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">{progress.toFixed(1)}%</div>
-            <div className="text-slate-400 text-sm sm:text-base mt-2">PROGRESO COMPLETADO</div>
+          <div className="text-center mt-4 mb-4">
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">{progress.toFixed(1)}%</div>
+            <div className="text-slate-400 text-xs sm:text-sm mt-0.5">PROGRESO COMPLETADO</div>
           </div>
 
           {/* Stats Grid */}
           <StatsGrid stats={swimData.stats} />
 
           {/* Event Info */}
-          <div className="mt-8 lg:mt-10 pt-6 border-t border-slate-700/50 text-center">
-            <div className="text-slate-400 text-sm sm:text-base space-y-1">
-              <div className="text-yellow-400 font-semibold text-lg">Presencial</div>
-              <div className="text-white font-medium text-base">Piscina Colegio Santa Librada</div>
+          <div className="mt-4 pt-3 border-t border-slate-700/50 text-center">
+            <div className="text-slate-400 text-xs space-y-0.5">
+              <div className="text-yellow-400 font-semibold text-sm">Presencial</div>
+              <div className="text-white font-medium text-xs">Piscina Colegio Santa Librada</div>
               <div>Calle 6a #14-40, Cali</div>
             </div>
           </div>
