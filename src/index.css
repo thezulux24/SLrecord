@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+}
+
+/* Custom animations */
+@keyframes swim {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(3px) rotate(2deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes bubble-1 {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.2);
+    opacity: 0.3;
+  }
+}
+
+@keyframes bubble-2 {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-15px) scale(1.3);
+    opacity: 0.2;
+  }
+}
+
+@keyframes bubble-3 {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-12px) scale(1.1);
+    opacity: 0.25;
+  }
+}
+
+.animate-swim {
+  animation: swim 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-bubble-1 {
+  animation: bubble-1 3s ease-in-out infinite;
+}
+
+.animate-bubble-2 {
+  animation: bubble-2 3.5s ease-in-out infinite;
+}
+
+.animate-bubble-3 {
+  animation: bubble-3 4s ease-in-out infinite;
+}
