@@ -145,13 +145,26 @@ export default function AdminPanel() {
   }
 
   const handleSaveStats = () => {
+    // Calcular promedios correctamente (ignorando ceros)
+    const newAvgPace = statsInput.avgPace === 0 
+      ? swimData.stats.avgPace 
+      : swimData.stats.avgPace === 0 
+        ? statsInput.avgPace 
+        : (statsInput.avgPace + swimData.stats.avgPace) / 2;
+    
+    const newAvgHeartRate = statsInput.avgHeartRate === 0 
+      ? swimData.stats.avgHeartRate 
+      : swimData.stats.avgHeartRate === 0 
+        ? statsInput.avgHeartRate 
+        : (statsInput.avgHeartRate + swimData.stats.avgHeartRate) / 2;
+
     // Sumar los valores de los inputs a las estadísticas actuales
     const updatedStats: Stats = {
       distance: swimData.stats.distance + statsInput.distance,
       strokes: swimData.stats.strokes + statsInput.strokes,
       calories: swimData.stats.calories + statsInput.calories,
-      avgPace: statsInput.avgPace, // Se sobreescribe
-      avgHeartRate: statsInput.avgHeartRate, // Se sobreescribe
+      avgPace: newAvgPace,
+      avgHeartRate: newAvgHeartRate,
     }
     
     const updatedData = {

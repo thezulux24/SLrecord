@@ -70,12 +70,53 @@ export default function PublicView() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6 lg:p-8 relative overflow-hidden">
+      {/* Ondas de agua animadas de fondo */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-blue-500/30 to-transparent animate-wave" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cyan-500/20 to-transparent animate-wave" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-teal-500/15 to-transparent animate-wave" style={{ animationDelay: '1s' }}></div>
+      </div>
+      
+      {/* Burbujas flotantes */}
+      {[...Array(12)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-2 h-2 bg-blue-400/30 rounded-full animate-float-up"
+          style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 15}s`,
+            animationDuration: `${10 + Math.random() * 10}s`,
+          }}
+        ></div>
+      ))}
+      
       {/* Modal de celebración */}
       {showCelebration && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-500">
-          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-4 border-red-500 rounded-2xl p-8 lg:p-12 max-w-3xl mx-4 shadow-2xl animate-in zoom-in duration-700">
-            <div className="text-center space-y-6">
+          {/* Efectos de agua en el modal */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-3 h-3 bg-blue-400/40 rounded-full animate-float-up"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${8 + Math.random() * 5}s`,
+                }}
+              ></div>
+            ))}
+          </div>
+          
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-4 border-red-500 rounded-2xl p-8 lg:p-12 max-w-3xl mx-4 shadow-2xl animate-in zoom-in duration-700 relative overflow-hidden">
+            {/* Efectos de brillo/ripple */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-ripple"></div>
+              <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl animate-ripple" style={{ animationDelay: '0.5s' }}></div>
+            </div>
+            
+            <div className="text-center space-y-6 relative z-10">
               <div className="text-6xl lg:text-8xl mb-4 animate-bounce">🏆</div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
                 ¡RÉCORD
@@ -119,7 +160,11 @@ export default function PublicView() {
       )}
 
       <div className="w-full max-w-7xl">
-        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl p-4 lg:p-6 shadow-2xl w-full">
+        <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-xl p-4 lg:p-6 shadow-2xl w-full relative overflow-hidden">
+          {/* Efectos decorativos de agua */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent animate-shimmer"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent animate-shimmer" style={{ animationDelay: '1s' }}></div>
+          
           {/* Header */}
           <div className="text-center mb-3">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-0.5 tracking-tight leading-tight">

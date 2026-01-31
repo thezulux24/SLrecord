@@ -76,14 +76,17 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       {statItems.map((stat, index) => (
         <Card
           key={index}
-          className="bg-slate-800/30 border-slate-700/50 p-3 hover:bg-slate-800/50 hover:border-slate-600 transition-all duration-300"
+          className="bg-slate-800/30 border-slate-700/50 p-3 hover:bg-slate-800/50 hover:border-slate-600 transition-all duration-300 relative overflow-hidden group"
         >
-          <div className="flex items-start justify-between mb-2">
-            <div className={`${stat.bgColor} ${stat.shadow} p-2 rounded-lg shadow-lg backdrop-blur-sm border border-white/10`}>
+          {/* Efecto de brillo al hover */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+          
+          <div className="flex items-start justify-between mb-2 relative z-10">
+            <div className={`${stat.bgColor} ${stat.shadow} p-2 rounded-lg shadow-lg backdrop-blur-sm border border-white/10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
               <stat.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${stat.color}`} strokeWidth={2.5} />
             </div>
           </div>
-          <div className="space-y-0.5">
+          <div className="space-y-0.5 relative z-10">
             <div className="text-xs text-slate-400 font-medium leading-tight">{stat.label}</div>
             <div className="flex items-baseline gap-1">
               <div className="text-xl sm:text-2xl font-bold text-white tabular-nums">{stat.value}</div>
